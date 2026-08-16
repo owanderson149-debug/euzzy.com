@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>euzzy Manager - Central de Suporte</title>
+  <meta name="theme-color" content="#0b0b0b" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+  <style>
+    /* Reset + variáveis de tema (preto e verde) */
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0b0b0b;
+      --panel:#0f1720;
+      --accent:#00c853; /* verde vibrante */
+      --accent-2:#00a14a;
+      --muted:#9aa4ad;
+      --card:#0e1416;
+      --glass: rgba(255,255,255,0.03);
+      --white:#f6f7f8;
+      --radius:14px;
+      --container-max:1200px;
+    }
+    html,body{height:100%;font-family:Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;background:var(--bg);color:var(--white);line-height:1.5;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    /* Skip link */
+    .skip-link{position:absolute;left:8px;top:8px;padding:10px 14px;background:#111;color:var(--accent);border-radius:8px;z-index:999;transform:translateY(-220%);transition:transform .2s ease}
+    .skip-link:focus{transform:translateY(0)}
+    /* Container */
+    .container{width:92%;max-width:var(--container-max);margin:0 auto;padding:0 12px}
+    header{background:linear-gradient(90deg,#071015 0%, rgba(0,0,0,0.6) 100%);padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .header-content{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#00120a;font-weight:700;font-size:20px;box-shadow:0 6px 20px rgba(0,200,83,0.12)}
+    .brand-text{font-size:1.05rem;font-weight:700;letter-spacing:0.2px}
+    nav{display:flex;align-items:center;gap:8px}
+    nav ul{display:flex;gap:12px;list-style:none}
+    nav a{color:var(--white);text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;transition:background .18s, transform .12s}
+    nav a:hover{background:rgba(255,255,255,0.02);transform:translateY(-2px)}
+    .nav-toggle{display:none;background:transparent;border:0;color:var(--white);font-size:1.2rem;padding:8px}
+    /* Hero com visual marcante */
+    .hero{background:
+      radial-gradient(1200px 300px at 10% 10%, rgba(0,200,83,0.06), transparent 10%),
+      radial-gradient(1000px 260px at 90% 90%, rgba(0,161,74,0.05), transparent 10%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      color:var(--white);padding:5.2rem 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+    .hero .inner{display:flex;align-items:center;gap:36px;justify-content:space-between;flex-wrap:wrap}
+    .hero-left{max-width:720px}
+    .eyebrow{display:inline-block;background:rgba(0,200,83,0.12);color:var(--accent);padding:6px 12px;border-radius:999px;font-weight:700;margin-bottom:14px;font-size:.875rem}
+    .hero h1{font-size:2.4rem;margin-bottom:.6rem;line-height:1.05}
+    .hero p{font-size:1.05rem;color:var(--muted);margin-bottom:1rem}
+    .hero-actions{display:flex;gap:12px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#00120a;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:800;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,200,83,0.12)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);font-weight:700}
+    .hero-visual{min-width:260px;max-width:420px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+    /* Sections */
+    section{padding:2rem 0}
+    .section-title{text-align:left;margin:0 0 18px;color:var(--white)}
+    .section-title h2{font-size:1.6rem;display:inline-block;padding-bottom:.4rem;position:relative}
+    .section-title h2::after{content:'';position:absolute;left:0;bottom:0;width:60px;height:3px;background:var(--accent);border-radius:4px}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
+    .feature-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);transition:transform .25s ease,box-shadow .25s}
+    .feature-card:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,0,0,0.7)}
+    .feature-card i{font-size:1.6rem;color:var(--accent);margin-bottom:10px}
+    .feature-card h3{color:var(--white);margin-bottom:8px}
+    .feature-card p{color:var(--muted);font-size:.95rem}
+    .resources{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+    .resource-card{display:flex;align-items:center;gap:12px;background:var(--panel);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .resource-icon{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#03120a;font-size:1.15rem}
+    /* Form */
+    .contact-form{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);max-width:820px;margin:0 auto}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .form-group{margin-bottom:10px}
+    label{display:block;margin-bottom:6px;font-weight:700;color:var(--white)}
+    input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white);font-size:1rem}
+    textarea{min-height:140px;resize:vertical}
+    .form-status{margin-top:10px;color:var(--accent);font-weight:700}
+    .honeypot{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+    /* Footer */
+    footer{background:linear-gradient(180deg,#060606,#071015);padding:28px 0;border-top:1px solid rgba(255,255,255,0.02)}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:14px}
+    .footer-section h3{margin-bottom:8px;position:relative}
+    .footer-section p{color:var(--muted);font-size:.95rem}
+    .footer-links li{list-style:none;margin-bottom:8px}
+    .footer-links a{color:var(--muted);text-decoration:none}
+    .social-links{display:flex;gap:10px;margin-top:10px}
+    .social-links a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);color:var(--white)}
+    .copyright{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:.92rem;border-top:1px solid rgba(255,255,255,0.02);padding-top:12px}
+    .created-by{color:var(--accent);font-weight:700}
+    /* Responsive nav */
+    @media (max-width:880px){
+      .header-content{align-items:center}
+      nav ul{display:none;position:absolute;right:16px;top:68px;background:linear-gradient(180deg,#071015,#0b1116);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);flex-direction:column;min-width:200px}
+      nav ul.open{display:flex}
+      .nav-toggle{display:inline-block}
+      .hero .inner{flex-direction:column;align-items:flex-start}
+      .hero-visual{width:100%}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{transition:none!important;animation:none!important}
+    }
+    :focus{outline-color:var(--accent);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <header>
+    <div class="container header-content" role="banner">
+      <div class="logo">
+        <div class="icon" aria-hidden="true">E</div>
+        <div>
+          <div class="brand-text">euzzy Manager</div>
+          <div class="sr-only">Central de Suporte euzzy Manager</div>
+        </div>
+      </div>
+
+      <nav aria-label="Navegação principal">
+        <button class="nav-toggle" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu">
+          <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        <ul id="primary-nav">
+          <li><a href="#home">Início</a></li>
+          <li><a href="#features">Funcionalidades</a></li>
+          <li><a href="#resources">Recursos</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1" role="main">
+    <section class="hero" id="home" aria-labelledby="hero-heading">
+      <div class="container inner">
+        <div class="hero-left">
+          <div class="eyebrow">SOLUÇÕES DE SEGURANÇA</div>
+          <h1 id="hero-heading">Proteja sua infraestrutura com o euzzy Manager</h1>
+          <p>Plataforma completa de segurança, detecção de ameaças, gestão de vulnerabilidades e conformidade. Projetada para times modernos que exigem agilidade e confiança.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact"><i class="fas fa-envelope" aria-hidden="true"></i> Solicitar Suporte</a>
+            <a class="btn ghost" href="#features"><i class="fas fa-star" aria-hidden="true"></i> Conhecer Funcionalidades</a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <!-- Visual decorativo simples para reforçar o tema (pode trocar por ilustração) -->
+          <svg width="100%" height="220" viewBox="0 0 560 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <rect x="0" y="0" width="560" height="220" rx="12" fill="url(#g)" />
+            <g opacity="0.9" transform="translate(20,18)">
+              <rect x="0" y="0" width="200" height="130" rx="10" fill="rgba(255,255,255,0.02)"/>
+              <rect x="220" y="0" width="280" height="130" rx="10" fill="rgba(255,255,255,0.015)"/>
+              <circle cx="80" cy="170" r="32" fill="#00120a"/>
+              <circle cx="220" cy="170" r="26" fill="#002412"/>
+              <rect x="300" y="150" width="120" height="18" rx="8" fill="rgba(255,255,255,0.03)"/>
+            </g>
+            <defs>
+              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#00120a" stop-opacity="0.65"/>
+                <stop offset="1" stop-color="#002821" stop-opacity="0.6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="features" aria-labelledby="features-heading">
+      <div class="section-title">
+        <h2 id="features-heading">Funcionalidades</h2>
+      </div>
+      <div class="features">
+        <article class="feature-card" aria-labelledby="f1">
+          <i class="fas fa-shield-virus" aria-hidden="true"></i>
+          <h3 id="f1">Detecção de Vulnerabilidades</h3>
+          <p>Escaneamento automatizado e relatórios acionáveis para reduzir a superfície de ataque.</p>
+        </article>
+
+        <article class="feature-card" aria-labelledby="f2">
+          <i class="fas fa-bolt" aria-hidden="true"></i>
+          <h3 id="f2">Inteligência de Ameaças</h3>
+          <p>Monitoramento em tempo real e alertas contextuais para eventos críticos.</p>
+        </article>
+
+        <article class="feature-card" aria-labelledby="f3">
+          <i class="fas fa-file-certificate" aria-hidden="true"></i>
+          <h3 id="f3">Gestão de Conformidade</h3>
+          <p>Checklists, auditorias e relatórios para facilitar a conformidade regulatória.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="resources" aria-labelledby="resources-heading">
+      <div class="section-title">
+        <h2 id="resources-heading">Recursos de Suporte</h2>
+      </div>
+      <div class="resources" role="list">
+        <div class="resource-card" role="listitem">
+          <div class="resource-icon" aria-hidden="true"><i class="fas fa-book"></i></div>
+          <div>
+            <h3>Documentação</h3>
+            <p>Guias completos de instalação, integração e melhores práticas.</p>
+          </div>
+        </div>
+
+        <div class="resource-card" role="listitem">
+          <div class="resource-icon" aria-hidden="true"><i class="fas fa-video"></i></div>
+          <div>
+            <h3>Tutoriais em Vídeo</h3>
+            <p>Passo a passo visual para fluxos comuns e configurações.</p>
+          </div>
+        </div>
+
+        <div class="resource-card" role="listitem">
+          <div class="resource-icon" aria-hidden="true"><i class="fas fa-question-circle"></i></div>
+          <div>
+            <h3>FAQ & Solução de Problemas</h3>
+            <p>Respostas para perguntas frequentes e dicas de resolução.</p>
+          </div>
+        </div>
+
+        <div class="resource-card" role="listitem">
+          <div class="resource-icon" aria-hidden="true"><i class="fas fa-users"></i></div>
+          <div>
+            <h3>Comunidade</h3>
+            <p>Fórum de usuários para compartilhar experiências e soluções.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="contact" aria-labelledby="contact-heading">
+      <div class="section-title">
+        <h2 id="contact-heading">Contato</h2>
+      </div>
+
+      <div class="contact-form" aria-labelledby="contact-heading">
+        <form id="supportForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Nome</label>
+              <input name="name" id="name" type="text" required aria-required="true" placeholder="Seu nome completo" />
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input name="email" id="email" type="email" required aria-required="true" placeholder="seu@exemplo.com" />
+            </div>
+            <div class="form-group">
+              <label for="subject">Assunto</label>
+              <input name="subject" id="subject" type="text" required aria-required="true" placeholder="Resumo do problema" />
+            </div>
+            <div class="form-group">
+              <label for="issue">Tipo de problema</label>
+              <select id="issue" name="issue" required aria-required="true">
+                <option value="">Selecione o tipo</option>
+                <option value="tecnico">Problema técnico</option>
+                <option value="faturamento">Dúvida de faturamento</option>
+                <option value="acesso">Acesso à conta</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Honeypot anti-spam -->
+          <div class="honeypot" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" autocomplete="off" tabindex="-1" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" rows="6" required aria-required="true" placeholder="Descreva seu problema com o máximo de detalhes possível"></textarea>
+          </div>
+
+          <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+            <button type="submit" class="btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar solicitação</button>
+            <button type="reset" class="btn ghost" aria-label="Limpar formulário">Limpar</button>
+          </div>
+
+          <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sobre o euzzy Manager</h3>
+          <p>O euzzy Manager oferece soluções de segurança e visibilidade para infraestruturas modernas. Com foco em automação e detecção proativa, ajudamos equipes a reduzir riscos e acelerar a resposta a incidentes.</p>
+          <div class="social-links" aria-label="Redes sociais">
+            <a href="#" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Links Rápidos</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Início</a></li>
+            <li><a href="#features">Funcionalidades</a></li>
+            <li><a href="#resources">Documentação</a></li>
+            <li><a href="#">Planos</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Informações de Contato</h3>
+          <ul style="list-style:none;padding:0;margin:0">
+            <li style="margin-bottom:8px"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> São Paulo, SP - Brasil</li>
+            <li style="margin-bottom:8px"><i class="fas fa-phone" aria-hidden="true"></i> +55 (11) 98765-4321</li>
+            <li><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:contato@euzzy.com" style="color:var(--muted);text-decoration:none">contato@euzzy.com</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <div>&copy; <span id="year"></span> euzzy Manager. Todos os direitos reservados.</div>
+        <div class="created-by">Criado por euzzy</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle de navegação (acessível)
+    (function(){
+      const toggle = document.querySelector('.nav-toggle');
+      const navList = document.getElementById('primary-nav');
+      toggle && toggle.addEventListener('click', function(){
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        navList.classList.toggle('open');
+      });
+      // Fecha o menu ao clicar fora (mobile)
+      document.addEventListener('click', (e) => {
+        if (!navList || !toggle) return;
+        if (!navList.contains(e.target) && !toggle.contains(e.target)) {
+          navList.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    // Manipulação do formulário em PT-BR com status acessível
+    (function(){
+      const form = document.getElementById('supportForm');
+      const status = document.getElementById('formStatus');
+
+      function escapeHtml(text){
+        return String(text).replace(/[&<>"'`=\/]/g, function(s){return ({
+          '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'
+        })[s] || s;});
+      }
+
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        status.textContent = '';
+
+        // Validação básica de HTML5
+        if (!form.checkValidity()) {
+          status.textContent = 'Por favor, preencha os campos obrigatórios.';
+          status.focus && status.focus();
+          return;
+        }
+
+        // Honeypot anti-spam
+        const honeypot = form.querySelector('input[name="website"]');
+        if (honeypot && honeypot.value) {
+          // falha silenciosa para bots
+          return;
+        }
+
+        const payload = {
+          nome: form.name.value.trim(),
+          email: form.email.value.trim(),
+          assunto: form.subject.value.trim(),
+          tipo: form.issue.value,
+          mensagem: form.message.value.trim()
+        };
+
+        status.textContent = 'Enviando…';
+
+        try {
+          // Substitua '/api/suporte' pelo endpoint real do servidor
+          const res = await fetch('/api/suporte', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            status.textContent = 'Obrigado! Sua solicitação de suporte foi recebida.';
+            form.reset();
+            status.focus && status.focus();
+          } else {
+            const json = await res.json().catch(()=>({message:'Não foi possível enviar a solicitação.'}));
+            status.textContent = 'Erro: ' + escapeHtml(json.message || 'Não foi possível enviar a solicitação.');
+            status.focus && status.focus();
+          }
+        } catch (err) {
+          status.textContent = 'Erro de rede. Tente novamente mais tarde.';
+          status.focus && status.focus();
+        }
+      });
+    })();
+
+    // Preenche o ano atual automaticamente
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
